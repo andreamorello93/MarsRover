@@ -8,12 +8,11 @@ namespace MarsRover.Api
         public int Height { get; }
         public Point[] Obstacles { get; }
 
-        public Planet()
+        public Planet(Point[] obstacles)
         {
             Width = 10;
             Height = 10;
-            Obstacles = new Point[0];
+            Obstacles = obstacles;
         }
-    
     }
 }

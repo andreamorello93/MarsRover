@@ -18,7 +18,7 @@ namespace MarsRover.Api.Controllers
         [Route("InitializeRover")]
         public Rover InitializeRover(int x, int y, Direction direction)
         {
-            _rover = _rover.Initalize(x, y, direction);
+            _rover = new Rover(x, y, direction, new Planet(new Point[]{new(1,2), }));
             return _rover;
         }
 
