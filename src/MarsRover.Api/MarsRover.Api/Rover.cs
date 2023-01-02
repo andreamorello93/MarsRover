@@ -38,6 +38,31 @@ namespace MarsRover.Api
 
         public string ProcessCommands(Commands[] commands)
         {
+            foreach (var command in commands)
+                switch (command)
+                {
+                    case Commands.F:
+                        if (Direction == Api.Direction.N)
+                            Position.Y++;
+                        if (Direction == Api.Direction.E)
+                            Position.X++;
+                        if (Direction == Api.Direction.S)
+                            Position.Y--;
+                        if (Direction == Api.Direction.W)
+                            Position.X--;
+                        break;
+                    case Commands.B:
+                        if (Direction == Api.Direction.N)
+                            Position.Y--;
+                        if (Direction == Api.Direction.E)
+                            Position.X--;
+                        if (Direction == Api.Direction.S)
+                            Position.X++;
+                        if (Direction == Api.Direction.W)
+                            Position.X++;
+                        break;
+                }
+
             return string.Empty;
         }
     }

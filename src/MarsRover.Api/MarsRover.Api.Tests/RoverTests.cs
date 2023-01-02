@@ -46,5 +46,75 @@ namespace MarsRover.Api.Tests
 
             actual.Should().BeEquivalentTo(expected);
         }
+
+        [Test]
+        public void Process_Commands_F_F_B()
+        {
+            var actual = new Rover(0, 0, Direction.E);
+
+            var commands = new[] {Commands.F, Commands.F, Commands.B};
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 0 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_N_B_F_B()
+        {
+            var actual = new Rover(3, 5, Direction.N);
+
+            var commands = new[] { Commands.B, Commands.F, Commands.B };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 3, Y = 4 }, Direction = Direction.N };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_S_F_F_F()
+        {
+            var actual = new Rover(3, 5, Direction.S);
+
+            var commands = new[] { Commands.F, Commands.F, Commands.F };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 3, Y = 2 }, Direction = Direction.S };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_E_B_F_F()
+        {
+            var actual = new Rover(7, 3, Direction.E);
+
+            var commands = new[] { Commands.B, Commands.F, Commands.F };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 8, Y = 3 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_W_F_B_B()
+        {
+            var actual = new Rover(7, 3, Direction.W);
+
+            var commands = new[] { Commands.F, Commands.B, Commands.B };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 8, Y = 3 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
     }
 }
