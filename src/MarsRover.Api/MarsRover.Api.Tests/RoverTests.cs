@@ -396,5 +396,61 @@ namespace MarsRover.Api.Tests
 
             actual.Should().BeEquivalentTo(expected);
         }
+
+        [Test]
+        public void Process_Commands_WrapEdge_E_B_B_B()
+        {
+            var actual = new Rover(1, 3, Direction.E);
+
+            var commands = new[] { Commands.B, Commands.B, Commands.B };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 9, Y = 3 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_WrapEdge_N_B_B_B()
+        {
+            var actual = new Rover(1, 2, Direction.N);
+
+            var commands = new[] { Commands.B, Commands.B, Commands.B };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 10 }, Direction = Direction.N };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_WrapEdge_S_F_F_F()
+        {
+            var actual = new Rover(1, 2, Direction.S);
+
+            var commands = new[] { Commands.F, Commands.F, Commands.F };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 10 }, Direction = Direction.S };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_WrapEdge_W_F_F_F()
+        {
+            var actual = new Rover(1, 2, Direction.W);
+
+            var commands = new[] { Commands.F, Commands.F, Commands.F };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 9, Y = 2 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
     }
 }

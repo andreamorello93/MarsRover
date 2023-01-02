@@ -43,23 +43,23 @@ namespace MarsRover.Api
                 {
                     case Commands.F:
                         if (Direction == Api.Direction.N)
-                            Position.Y++;
+                            PlusY();
                         if (Direction == Api.Direction.E)
-                            Position.X++;
+                            PlusX();
                         if (Direction == Api.Direction.S)
-                            Position.Y--;
+                            MinusY();
                         if (Direction == Api.Direction.W)
-                            Position.X--;
+                            MinusX();
                         break;
                     case Commands.B:
                         if (Direction == Api.Direction.N)
-                            Position.Y--;
+                            MinusY();
                         if (Direction == Api.Direction.E)
-                            Position.X--;
+                            MinusX();
                         if (Direction == Api.Direction.S)
-                            Position.X++;
+                            PlusX();
                         if (Direction == Api.Direction.W)
-                            Position.X++;
+                            PlusX();
                         break;
                     case Commands.L:
                         if (Direction == Api.Direction.N)
@@ -84,6 +84,38 @@ namespace MarsRover.Api
                 }
 
             return string.Empty;
+        }
+
+        private void MinusX()
+        {
+            Position.X--;
+
+            if (Position.X < 0)
+                Position.X = _planet.Width;
+        }
+
+        private void MinusY()
+        {
+            Position.Y--;
+
+            if (Position.Y < 0)
+                Position.Y = _planet.Height;
+        }
+
+        private void PlusY()
+        {
+            Position.Y++;
+
+            if (Position.Y > _planet.Height)
+                Position.Y = 0;
+        }
+
+        private void PlusX()
+        {
+            Position.X++;
+
+            if (Position.X > _planet.Width)
+                Position.X = 0;
         }
     }
 
