@@ -1,4 +1,5 @@
-﻿
+﻿using System.Linq;
+
 namespace MarsRover.Api
 {
     public enum Direction { N, S, E, W }
@@ -33,6 +34,11 @@ namespace MarsRover.Api
             Direction = direction;
 
             return this;
+        }
+
+        public string ProcessCommands(Commands[] commands)
+        {
+            return string.Empty;
         }
     }
 

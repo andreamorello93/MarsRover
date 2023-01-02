@@ -20,6 +20,13 @@ namespace MarsRover.Api.Controllers
         {
             _rover = _rover.Initalize(x, y, direction);
             return _rover;
-        }       
+        }
+
+        [HttpPost]
+        [Route("ProcessCommands")]
+        public string ProcessCommands(Commands[] commands)
+        {
+            return _rover.ProcessCommands(commands);
+        }
     }
 }
