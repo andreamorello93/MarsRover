@@ -1,36 +1,35 @@
-﻿using System.Linq;
-
-namespace MarsRover.Api
+﻿namespace MarsRover.Api
 {
     public enum Direction { N, S, E, W }
     public enum Commands { F, B, L, R }
 
     public class Rover
     {
-        private readonly Planet _planet = new Planet();
-
+        public Planet Planet { get; set; }
         public Point Position { get; set; }
         public Direction? Direction { get; set; }
 
         public Rover()
         {
-
+            Planet = new Planet(Array.Empty<Point>());
+            Position = new Point(0, 0);
+            Direction = Api.Direction.N;
         }
 
-        public Rover(int x, int y, Direction direction)
+        public Rover(int x, int y, Direction direction, Planet planet)
         {
-            Initalize(x, y, direction);
+            Initalize(x, y, direction, planet);
         }
 
-        public Rover Initalize(int x, int y, Direction direction)
+        public Rover Initalize(int x, int y, Direction direction, Planet planet)
         {
-            if(x > _planet.Width)
-                x = 0;
+            Planet = planet;
 
-            if (y > _planet.Height)
-                y = 0;
+            if (x > Planet.Width) x = 0;
 
-            Position = new Point(x, y);            
+            if (y > Planet.Height) y = 0;
+
+            Position = new Point(x, y);
             Direction = direction;
 
             return this;
@@ -38,84 +37,135 @@ namespace MarsRover.Api
 
         public string ProcessCommands(Commands[] commands)
         {
-            foreach (var command in commands)
-                switch (command)
-                {
-                    case Commands.F:
-                        if (Direction == Api.Direction.N)
-                            PlusY();
-                        if (Direction == Api.Direction.E)
-                            PlusX();
-                        if (Direction == Api.Direction.S)
-                            MinusY();
-                        if (Direction == Api.Direction.W)
-                            MinusX();
-                        break;
-                    case Commands.B:
-                        if (Direction == Api.Direction.N)
-                            MinusY();
-                        if (Direction == Api.Direction.E)
-                            MinusX();
-                        if (Direction == Api.Direction.S)
-                            PlusX();
-                        if (Direction == Api.Direction.W)
-                            PlusX();
-                        break;
-                    case Commands.L:
-                        if (Direction == Api.Direction.N)
-                            Direction = Api.Direction.W;
-                        else if (Direction == Api.Direction.E)
-                            Direction = Api.Direction.N;
-                        else if(Direction == Api.Direction.S)
-                            Direction = Api.Direction.E;
-                        else if(Direction == Api.Direction.W)
-                            Direction = Api.Direction.S;
-                        break;
-                    case Commands.R:
-                        if (Direction == Api.Direction.N)
-                            Direction = Api.Direction.E;
-                        else if(Direction == Api.Direction.E)
-                            Direction = Api.Direction.S;
-                        else if(Direction == Api.Direction.S)
-                            Direction = Api.Direction.W;
-                        else if(Direction == Api.Direction.W)
-                            Direction = Api.Direction.N;
-                        break;
-                }
+            var commandResult = string.Empty;
 
-            return string.Empty;
+            foreach (var command in commands)
+            {
+                commandResult = ProcessCommand(command);
+
+                if (!commandResult.Equals(Constants.COMMAND_RESULT_OK))
+                    break;
+            }
+
+            return commandResult;
         }
 
-        private void MinusX()
+        private string ProcessCommand(Commands command)
         {
+            switch (command)
+            {
+                case Commands.F:
+                    if (Direction == Api.Direction.N)
+                        return PlusY();
+                    if (Direction == Api.Direction.E)
+                        return PlusX();
+                    if (Direction == Api.Direction.S)
+                        return MinusY();
+                    if (Direction == Api.Direction.W)
+                        return MinusX();
+                    break;
+                case Commands.B:
+                    if (Direction == Api.Direction.N)
+                        return MinusY();
+                    if (Direction == Api.Direction.E)
+                        return MinusX();
+                    if (Direction == Api.Direction.S)
+                        return PlusX();
+                    if (Direction == Api.Direction.W)
+                        return PlusX();
+                    break;
+                case Commands.L:
+                    if (Direction == Api.Direction.N)
+                        Direction = Api.Direction.W;
+                    else if (Direction == Api.Direction.E)
+                        Direction = Api.Direction.N;
+                    else if (Direction == Api.Direction.S)
+                        Direction = Api.Direction.E;
+                    else if (Direction == Api.Direction.W)
+                        Direction = Api.Direction.S;
+                    break;
+                case Commands.R:
+                    if (Direction == Api.Direction.N)
+                        Direction = Api.Direction.E;
+                    else if (Direction == Api.Direction.E)
+                        Direction = Api.Direction.S;
+                    else if (Direction == Api.Direction.S)
+                        Direction = Api.Direction.W;
+                    else if (Direction == Api.Direction.W)
+                        Direction = Api.Direction.N;
+                    break;
+            }
+
+            return Constants.COMMAND_RESULT_OK;
+        }
+
+        private string MinusX()
+        {
+            var projectionPoint = new Point(Position.X + 1, Position.Y);
+
+            if (CheckObstacle(projectionPoint))
+                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+
             Position.X--;
 
             if (Position.X < 0)
-                Position.X = _planet.Width;
+                Position.X = Planet.Width;
+
+            return CommandResultOk();
         }
 
-        private void MinusY()
+        private string MinusY()
         {
+            var projectionPoint = new Point(Position.X, Position.Y - 1);
+
+            if (CheckObstacle(projectionPoint))
+                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+
             Position.Y--;
 
             if (Position.Y < 0)
-                Position.Y = _planet.Height;
+                Position.Y = Planet.Height;
+
+            return CommandResultOk();
         }
 
-        private void PlusY()
+        private string PlusY()
         {
+            var projectionPoint = new Point(Position.X, Position.Y + 1);
+
+            if (CheckObstacle(projectionPoint))
+                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+
             Position.Y++;
 
-            if (Position.Y > _planet.Height)
+            if (Position.Y > Planet.Height)
                 Position.Y = 0;
+
+            return CommandResultOk();
         }
 
-        private void PlusX()
+        private string PlusX()
         {
+            var projectionPoint = new Point(Position.X + 1, Position.Y);
+            if (CheckObstacle(projectionPoint))
+                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+
             Position.X++;
 
-            if (Position.X > _planet.Width)
+            if (Position.X > Planet.Width)
                 Position.X = 0;
+
+            return CommandResultOk();
+        }
+
+        private static string CommandResultOk()
+        {
+            return Constants.COMMAND_RESULT_OK;
+        }
+
+        private bool CheckObstacle(Point projectionPoint)
+        {
+            return Planet.Obstacles.Any(o => o.Equals(projectionPoint));
         }
     }
 
