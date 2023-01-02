@@ -5,7 +5,7 @@
 
     public class Rover
     {
-        public Planet Planet { get; set; }
+        public Planet Planet { get; private set; }
         public Point Position { get; set; }
         public Direction? Direction { get; set; }
 
@@ -30,6 +30,10 @@
             if (y > Planet.Height) y = 0;
 
             Position = new Point(x, y);
+
+            if (CheckObstacle(Position))
+                throw new ApplicationException(FormatObstacleMessage(Position));
+
             Direction = direction;
 
             return this;
@@ -104,7 +108,7 @@
             var projectionPoint = new Point(Position.X + 1, Position.Y);
 
             if (CheckObstacle(projectionPoint))
-                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+                return FormatObstacleMessage(projectionPoint);
 
             Position.X--;
 
@@ -114,12 +118,17 @@
             return CommandResultOk();
         }
 
+        private static string FormatObstacleMessage(Point projectionPoint)
+        {
+            return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+        }
+
         private string MinusY()
         {
             var projectionPoint = new Point(Position.X, Position.Y - 1);
 
             if (CheckObstacle(projectionPoint))
-                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+                return FormatObstacleMessage(projectionPoint);
 
             Position.Y--;
 
@@ -134,7 +143,7 @@
             var projectionPoint = new Point(Position.X, Position.Y + 1);
 
             if (CheckObstacle(projectionPoint))
-                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+                return FormatObstacleMessage(projectionPoint);
 
             Position.Y++;
 
@@ -148,7 +157,7 @@
         {
             var projectionPoint = new Point(Position.X + 1, Position.Y);
             if (CheckObstacle(projectionPoint))
-                return string.Format(Constants.COMMAND_RESULT_KO, projectionPoint.X, projectionPoint.Y);
+                return FormatObstacleMessage(projectionPoint);
 
             Position.X++;
 

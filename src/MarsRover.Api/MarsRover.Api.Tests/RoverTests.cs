@@ -453,38 +453,6 @@ namespace MarsRover.Api.Tests
         }
 
         [Test]
-        public void Process_Commands_1_Obstacle_Detection()
-        {
-            var actual = new Rover(1, 2, Direction.N, new Planet(new Point[] { new(1, 4) }));
-
-            var commands = new[] { Commands.F, Commands.F, Commands.F };
-
-            var actualCommandResult = actual.ProcessCommands(commands);
-
-            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.N };
-
-            actual.Should().BeEquivalentTo(expected);
-
-            actualCommandResult.Should().Be("Obstacle detected! (X: 1, Y: 4)");
-        }
-
-        [Test]
-        public void Process_Commands_3_Obstacle_Detection()
-        {
-            var actual = new Rover(2, 2, Direction.N, new Planet(new Point[] { new(1, 4), new(6, 7), new(4, 4) }));
-
-            var commands = new[] { Commands.F, Commands.F, Commands.R, Commands.F, Commands.F };
-
-            var actualCommandResult = actual.ProcessCommands(commands);
-
-            var expected = new { Position = new { X = 3, Y = 4 }, Direction = Direction.E };
-
-            actual.Should().BeEquivalentTo(expected);
-
-            actualCommandResult.Should().Be(string.Format(Constants.COMMAND_RESULT_KO, 4, 4));
-        }
-
-        [Test]
         public void Process_Commands_3_Obstacle_NoDetection()
         {
             var actual = new Rover(1, 1, Direction.N, new Planet(new Point[] { new(1, 4), new(6, 7), new(4, 4) }));
@@ -501,13 +469,29 @@ namespace MarsRover.Api.Tests
         }
 
         [Test]
+        public void Process_Commands_1_Obstacle_Detection()
+        {
+            var actual = new Rover(1, 2, Direction.N, new Planet(new Point[]{new (1,4)}));
+
+            var commands = new[] { Commands.F, Commands.F, Commands.F };
+
+            var actualCommandResult = actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.N };
+
+            actual.Should().BeEquivalentTo(expected);
+
+            actualCommandResult.Should().Be(string.Format(Constants.COMMAND_RESULT_KO, 1, 4));
+        }
+
+        [Test]
         public void Process_Commands_5_Obstacle_NoDetection()
         {
-            var actual = new Rover(1, 1, Direction.N,
+            var actual = new Rover(1, 1, Direction.N, 
                 new Planet(new Point[]
                 {
-                    new(1, 4),
-                    new(6, 7),
+                    new(1, 4), 
+                    new(6, 7), 
                     new(8, 4),
                     new(3, 3),
                     new(2, 5),
@@ -515,13 +499,13 @@ namespace MarsRover.Api.Tests
 
             var commands = new[]
             {
-                Commands.F,
-                Commands.F,
-                Commands.L,
-                Commands.F,
-                Commands.F,
-                Commands.R,
-                Commands.F,
+                Commands.F, 
+                Commands.F, 
+                Commands.L, 
+                Commands.F, 
+                Commands.F, 
+                Commands.R, 
+                Commands.F, 
                 Commands.F,
                 Commands.R,
                 Commands.B,
@@ -535,6 +519,22 @@ namespace MarsRover.Api.Tests
             actual.Should().BeEquivalentTo(expected);
 
             actualCommandResult.Should().Be(Constants.COMMAND_RESULT_OK);
+        }
+
+        [Test]
+        public void Process_Commands_2_Obstacle_Detection()
+        {
+            var actual = new Rover(2, 2, Direction.N, new Planet(new Point[] { new(3, 4), new(5, 2) }));
+
+            var commands = new[] { Commands.R, Commands.F, Commands.F, Commands.F, };
+
+            var actualCommandResult = actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 4, Y = 2 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+
+            actualCommandResult.Should().Be(string.Format(Constants.COMMAND_RESULT_KO, 5, 2));
         }
     }
 }
