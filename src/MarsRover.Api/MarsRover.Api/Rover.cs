@@ -61,6 +61,26 @@ namespace MarsRover.Api
                         if (Direction == Api.Direction.W)
                             Position.X++;
                         break;
+                    case Commands.L:
+                        if (Direction == Api.Direction.N)
+                            Direction = Api.Direction.W;
+                        else if (Direction == Api.Direction.E)
+                            Direction = Api.Direction.N;
+                        else if(Direction == Api.Direction.S)
+                            Direction = Api.Direction.E;
+                        else if(Direction == Api.Direction.W)
+                            Direction = Api.Direction.S;
+                        break;
+                    case Commands.R:
+                        if (Direction == Api.Direction.N)
+                            Direction = Api.Direction.E;
+                        else if(Direction == Api.Direction.E)
+                            Direction = Api.Direction.S;
+                        else if(Direction == Api.Direction.S)
+                            Direction = Api.Direction.W;
+                        else if(Direction == Api.Direction.W)
+                            Direction = Api.Direction.N;
+                        break;
                 }
 
             return string.Empty;

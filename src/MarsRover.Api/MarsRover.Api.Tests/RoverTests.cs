@@ -116,5 +116,285 @@ namespace MarsRover.Api.Tests
 
             actual.Should().BeEquivalentTo(expected);
         }
+
+        [Test]
+        public void Process_Commands_N_L()
+        {
+            var actual = new Rover(6, 2, Direction.N);
+
+            var commands = new[] { Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 6, Y = 2 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_N_R()
+        {
+            var actual = new Rover(1, 2, Direction.N);
+
+            var commands = new[] { Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 2 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_E_L()
+        {
+            var actual = new Rover(4, 2, Direction.E);
+
+            var commands = new[] { Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 4, Y = 2 }, Direction = Direction.N };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_E_R()
+        {
+            var actual = new Rover(6, 8, Direction.W);
+
+            var commands = new[] { Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 6, Y = 8 }, Direction = Direction.S };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_S_L()
+        {
+            var actual = new Rover(3, 3, Direction.S);
+
+            var commands = new[] { Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 3, Y = 3 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_S_R()
+        {
+            var actual = new Rover(2, 2, Direction.S);
+
+            var commands = new[] { Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 2, Y = 2 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_W_L()
+        {
+            var actual = new Rover(1, 3, Direction.W);
+
+            var commands = new[] { Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.S };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_W_R()
+        {
+            var actual = new Rover(2, 1, Direction.W);
+
+            var commands = new[] { Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 2, Y = 1 }, Direction = Direction.N };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_N_L_L_L_L()
+        {
+            var actual = new Rover(1, 3, Direction.N);
+
+            var commands = new[] { Commands.L, Commands.L, Commands.L, Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.N };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_E_L_L_L_L()
+        {
+            var actual = new Rover(1, 3, Direction.E);
+
+            var commands = new[] { Commands.L, Commands.L, Commands.L, Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_S_L_L_L_L()
+        {
+            var actual = new Rover(1, 3, Direction.S);
+
+            var commands = new[] { Commands.L, Commands.L, Commands.L, Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.S };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_W_L_L_L_L()
+        {
+            var actual = new Rover(1, 3, Direction.W);
+
+            var commands = new[] { Commands.L, Commands.L, Commands.L, Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_N_R_R_R_R()
+        {
+            var actual = new Rover(1, 3, Direction.N);
+
+            var commands = new[] { Commands.R, Commands.R, Commands.R, Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.N };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_E_R_R_R_R()
+        {
+            var actual = new Rover(1, 3, Direction.E);
+
+            var commands = new[] { Commands.R, Commands.R, Commands.R, Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_S_R_R_R_R()
+        {
+            var actual = new Rover(1, 3, Direction.S);
+
+            var commands = new[] { Commands.R, Commands.R, Commands.R, Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.S };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_W_R_R_R_R()
+        {
+            var actual = new Rover(1, 3, Direction.W);
+
+            var commands = new[] { Commands.R, Commands.R, Commands.R, Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_N_R_L_R_R()
+        {
+            var actual = new Rover(1, 3, Direction.W);
+
+            var commands = new[] { Commands.R, Commands.L, Commands.R, Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.E };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_E_L_L_R_R()
+        {
+            var actual = new Rover(1, 3, Direction.W);
+
+            var commands = new[] { Commands.L, Commands.L, Commands.R, Commands.R };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_S_L_R_R_L()
+        {
+            var actual = new Rover(1, 3, Direction.S);
+
+            var commands = new[] { Commands.L, Commands.R, Commands.R, Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.S };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
+
+        [Test]
+        public void Process_Commands_W_R_R_L_L()
+        {
+            var actual = new Rover(1, 3, Direction.W);
+
+            var commands = new[] { Commands.R, Commands.R, Commands.L, Commands.L };
+
+            actual.ProcessCommands(commands);
+
+            var expected = new { Position = new { X = 1, Y = 3 }, Direction = Direction.W };
+
+            actual.Should().BeEquivalentTo(expected);
+        }
     }
 }
